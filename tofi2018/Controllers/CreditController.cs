@@ -13,9 +13,13 @@ namespace tofi2018.Controllers
 
         // POST: Credit/Result
         [HttpPost]
-        public ActionResult Result(CreditModel creditModel)
+        public ActionResult Result(Credit creditModel)
         {
             creditModel.Calculate();
+
+            creditModel.AddToDb();
+
+            creditModel.GetPayment();
 
             return View(creditModel);
         }
