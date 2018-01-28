@@ -1,0 +1,14 @@
+﻿@model tofi2018.Models.FileUploadModel
+
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload</h2>
+
+@using (Html.BeginForm("Upload", "File", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="OK" />
+}
