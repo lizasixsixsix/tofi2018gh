@@ -272,6 +272,7 @@
     <Content Include="Views\File\Uploaded.cshtml" />
     <Content Include="Views\File\NotUploaded.cshtml" />
     <Content Include="Views\File\Download.cshtml" />
+    <Content Include="Views\Credit\My.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Downloadable\" />

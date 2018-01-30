@@ -11,6 +11,12 @@ namespace tofi2018.Controllers
             return View();
         }
 
+        // GET: Credit/My
+        public ActionResult My()
+        {
+            return View();
+        }
+
         // POST: Credit/Result
         [HttpPost]
         public ActionResult Result(Credit creditModel)

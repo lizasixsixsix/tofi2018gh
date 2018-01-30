@@ -20,7 +20,7 @@ namespace tofi2018.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("name=tofi2018.Local", throwIfV1Schema: false)
+            : base("name=tofi2018", throwIfV1Schema: false)
         {
         }
 

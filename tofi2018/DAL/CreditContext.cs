@@ -5,7 +5,7 @@ namespace tofi2018.DAL
 {
     public class CreditContext : DbContext
     {
-        public CreditContext() : base("name=tofi2018.Local")
+        public CreditContext() : base("name=tofi2018")
         {
         }
 
