@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using tofi2018.DAL;
 
 namespace tofi2018.Models
 {
@@ -26,14 +28,26 @@ namespace tofi2018.Models
             foreach (string dir in Directory.GetDirectories(
                          parent, "*", SearchOption.TopDirectoryOnly))
             {
-                if (Directory.GetFiles(dir, "*").Length > 0)
+                string dirUserName = string.Empty;
+
+                var currDirName = new DirectoryInfo(dir).Name;
+
+                using (var context = new CreditContext())
                 {
-                    this.Folders.Add(dir, new List<string>());
+                    dirUserName = context.Credits.Where(
+                        c => c.DocsFolder == currDirName).First().UserName;
+                }
+
+                this.Folders.Add(dirUserName, new List<string>());
+
+                foreach (string subdir in Directory.GetDirectories(
+                         dir, "*", SearchOption.TopDirectoryOnly))
+                {
 
                     foreach (string file in Directory.GetFiles(
-                                 dir, "*", SearchOption.AllDirectories))
+                                 subdir, "*", SearchOption.AllDirectories))
                     {
-                        this.Folders[dir].Add(file);
+                        this.Folders[dirUserName].Add(file);
                     }
                 }
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using tofi2018.DAL;
 
@@ -45,16 +44,6 @@ namespace tofi2018.Models
                 db.Credits.Add(this);
                 db.SaveChanges();
             }
-        }
-    }
-
-    public class MyCredits
-    {
-        Dictionary<int, Credit> Credits { get; set; }
-
-        public MyCredits()
-        {
-            this.Credits = new Dictionary<int, Credit>();
         }
     }
 }
