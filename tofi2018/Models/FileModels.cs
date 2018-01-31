@@ -7,6 +7,10 @@ namespace tofi2018.Models
     {
     }
 
+    public class DocsUploadModel
+    {
+    }
+
     public class DirectoryModel
     {
         public string Parent { get; private set; }

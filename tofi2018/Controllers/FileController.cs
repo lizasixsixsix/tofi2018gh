@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using tofi2018.DAL;
 using tofi2018.Models;
 
 namespace tofi2018.Controllers
@@ -36,6 +38,49 @@ namespace tofi2018.Controllers
             }
 
             return RedirectToAction("NotUploaded");
+        }
+
+        public ActionResult UploadDocs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadDocs(HttpPostedFileBase passport,
+                                       HttpPostedFileBase salaryCert)
+        {
+            string dirName = String.Empty;
+
+            using (var context = new CreditContext())
+            {
+                var credits = context.Credits;
+
+                dirName = credits.Where(
+                    c => c.UserName == System.Web.HttpContext.Current.User.Identity.Name)
+                             .First().DocsFolder;
+            }
+
+            var directory = Directory.CreateDirectory(
+                Path.Combine(Server.MapPath("~/App_Data/Uploaded"), dirName));
+
+            var passportDirectory = Directory.CreateDirectory(
+                Path.Combine(directory.FullName, "passport"));
+
+            var salaryCertDirectory = Directory.CreateDirectory(
+                Path.Combine(directory.FullName, "salary_cert"));
+
+            passport.SaveAs(Path.Combine(passportDirectory.FullName,
+                               Path.GetFileName(passport.FileName)));
+
+            salaryCert.SaveAs(Path.Combine(salaryCertDirectory.FullName,
+                                 Path.GetFileName(salaryCert.FileName)));
+
+            return RedirectToAction("DocsUploaded", "File");
+        }
+
+        public ActionResult DocsUploaded()
+        {
+            return View();
         }
 
         public ActionResult Uploaded(string file)

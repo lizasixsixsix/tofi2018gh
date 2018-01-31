@@ -1,0 +1,22 @@
+﻿@model tofi2018.Models.DocsUploadModel
+
+@{
+    ViewBag.Title = "UploadDocs";
+}
+
+<h2>Upload Your Documents</h2>
+
+
+@using (Html.BeginForm("UploadDocs", "File", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    <h3>Passport</h3>
+
+    <input type="file" name="passport" />
+
+    <h3>Salary Certificate</h3>
+
+    <input type="file" name="salaryCert" />
+
+    <input type="submit" value="OK" />
+}

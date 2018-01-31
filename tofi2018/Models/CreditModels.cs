@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Web;
 using tofi2018.DAL;
 
 namespace tofi2018.Models
 {
     public class Credit
     {
+        public string UserName { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string DocsFolder { get; set; }
+
         public decimal AnnualRate { get; set; }
 
         public int CreditID { get; set; }
@@ -19,9 +27,15 @@ namespace tofi2018.Models
 
         public void Calculate()
         {
+            this.UserName = HttpContext.Current.User.Identity.Name;
+
+            this.DocsFolder = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
+
             this.MonthlyPayment = this.Sum * (this.AnnualRate * 0.01m +
                 (this.AnnualRate * 0.01m /
                 (decimal)Math.Pow((double)(1 + this.AnnualRate * 0.01m), this.Months)));
+
+            this.AddToDb();
         }
 
         public void AddToDb()
@@ -30,18 +44,6 @@ namespace tofi2018.Models
             {
                 db.Credits.Add(this);
                 db.SaveChanges();
-            }
-        }
-
-        public void GetPayment()
-        {
-            using (var context = new CreditContext())
-            {
-                var credits = context.Credits;
-
-                this.MonthlyPayment = credits.Where(c => c.Months == this.Months
-                                                  && c.Sum == this.Sum)
-                                      .First().MonthlyPayment;
             }
         }
     }

@@ -3,6 +3,7 @@ using tofi2018.Models;
 
 namespace tofi2018.Controllers
 {
+    [Authorize(Roles = "User")]
     public class CreditController : Controller
     {
         // GET: Credit
@@ -22,10 +23,6 @@ namespace tofi2018.Controllers
         public ActionResult Result(Credit creditModel)
         {
             creditModel.Calculate();
-
-            creditModel.AddToDb();
-
-            creditModel.GetPayment();
 
             return View(creditModel);
         }
