@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201802101628234_MigrationsEnabled.Designer.cs">
       <DependentUpon>201802101628234_MigrationsEnabled.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802101708536_CreditIsApprovedAdded.cs" />
+    <Compile Include="Migrations\201802101708536_CreditIsApprovedAdded.Designer.cs">
+      <DependentUpon>201802101708536_CreditIsApprovedAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreditModels.cs" />
@@ -313,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802101628234_MigrationsEnabled.resx">
       <DependentUpon>201802101628234_MigrationsEnabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802101708536_CreditIsApprovedAdded.resx">
+      <DependentUpon>201802101708536_CreditIsApprovedAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

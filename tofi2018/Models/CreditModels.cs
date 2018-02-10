@@ -24,6 +24,8 @@ namespace tofi2018.Models
 
         public decimal MonthlyPayment { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public void Calculate()
         {
             this.UserName = HttpContext.Current.User.Identity.Name;
