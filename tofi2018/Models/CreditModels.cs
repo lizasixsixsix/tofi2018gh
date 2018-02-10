@@ -30,9 +30,7 @@ namespace tofi2018.Models
 
             this.DocsFolder = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
 
-            this.MonthlyPayment = this.Sum * (this.AnnualRate * 0.01m +
-                (this.AnnualRate * 0.01m /
-                (decimal)Math.Pow((double)(1 + this.AnnualRate * 0.01m), this.Months)));
+            this.MonthlyPayment = (this.AnnualRate * 0.01m / 12.0m * this.Months + 1m) * this.Sum / (decimal)this.Months;
 
             this.AddToDb();
         }
