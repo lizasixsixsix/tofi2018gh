@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using tofi2018.DAL;
 using tofi2018.Models;
@@ -51,29 +52,43 @@ namespace tofi2018.Controllers
         {
             string dirName = String.Empty;
 
+            Credit credit;
+
             using (var context = new CreditContext())
             {
                 var credits = context.Credits;
 
-                dirName = credits.Where(
-                    c => c.UserName == System.Web.HttpContext.Current.User.Identity.Name)
-                             .First().DocsFolder;
+                credit = credits.Where(
+                    c => c.UserName == System.Web.HttpContext.Current.User.Identity.Name).OrderByDescending(c => c.DocsFolder).First();
+
+                dirName = credit.DocsFolder;
+
+                var directory = Directory.CreateDirectory(
+                    Path.Combine(
+                        Server.MapPath(
+                            WebConfigurationManager.AppSettings["CreditsRootDirectory"]),
+                        dirName));
+
+                var passportDirectory = Directory.CreateDirectory(
+                    Path.Combine(directory.FullName, "passport"));
+
+                var salaryCertDirectory = Directory.CreateDirectory(
+                    Path.Combine(directory.FullName, "salary_cert"));
+
+                passport.SaveAs(Path.Combine(passportDirectory.FullName,
+                                   Path.GetFileName(passport.FileName)));
+
+                salaryCert.SaveAs(Path.Combine(salaryCertDirectory.FullName,
+                                     Path.GetFileName(salaryCert.FileName)));
+
+                credit.PassportFile = Directory.GetFiles(
+                    Path.Combine(directory.FullName, "passport")).First();
+
+                credit.SalaryCertFile = Directory.GetFiles(
+                    Path.Combine(directory.FullName, "salary_cert")).First();
+
+                context.SaveChanges();
             }
-
-            var directory = Directory.CreateDirectory(
-                Path.Combine(Server.MapPath("~/App_Data/Uploaded"), dirName));
-
-            var passportDirectory = Directory.CreateDirectory(
-                Path.Combine(directory.FullName, "passport"));
-
-            var salaryCertDirectory = Directory.CreateDirectory(
-                Path.Combine(directory.FullName, "salary_cert"));
-
-            passport.SaveAs(Path.Combine(passportDirectory.FullName,
-                               Path.GetFileName(passport.FileName)));
-
-            salaryCert.SaveAs(Path.Combine(salaryCertDirectory.FullName,
-                                 Path.GetFileName(salaryCert.FileName)));
 
             return RedirectToAction("DocsUploaded", "File");
         }
@@ -95,12 +110,12 @@ namespace tofi2018.Controllers
             return View();
         }
 
-        public ActionResult Download()
-        {
-            var dir = new DirectoryModel(Server.MapPath("~/App_Data/Uploaded/"));
+        // public ActionResult Download()
+        // {
+        //     var dir = new DirectoryModel(Server.MapPath("~/App_Data/Uploaded/"));
 
-            return View(dir);
-        }
+        //     return View(dir);
+        // }
 
         public ActionResult DownloadFile(string fileName)
         {

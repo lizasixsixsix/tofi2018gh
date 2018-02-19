@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using tofi2018.Models;
 
 namespace tofi2018.Controllers
 {
@@ -8,9 +9,9 @@ namespace tofi2018.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            var dir = new Models.DirectoryModel(Server.MapPath("~/App_Data/Uploaded/"));
+            var allCredits = new UsersCreditsModel();
 
-            return View(dir);
+            return View(allCredits);
         }
     }
 }

@@ -1,25 +1,43 @@
-﻿@model tofi2018.Models.DirectoryModel
+﻿@model tofi2018.Models.UsersCreditsModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>All Users Credits</h2>
 
-@foreach (var folder in Model.Folders)
+@foreach (var user in Model.AllCredits)
 {
-    var folderName = new DirectoryInfo(folder.Key).Name;
+    <h3>@user.Key</h3>
 
-    <h3>@folderName</h3>
-
-    foreach (var file in folder.Value)
+    foreach (var credit in user.Value)
     {
+        <h3>Passport</h3>
+
         <div>
-            @Path.GetFileName(file)
+            @credit.PassportFile
 
             &nbsp;
 
-            @Html.ActionLink("Download File", "DownloadFile", new { fileName = file })
+            @Html.ActionLink(
+                      "Download File",
+                      "DownloadFile",
+                      new { fileName = credit.PassportFile })
+        </div>
+
+        <h3>Salary Certificate</h3>
+
+        <div>
+            @credit.SalaryCertFile
+
+            &nbsp;
+
+            @Html.ActionLink(
+                      "Download File",
+                      "DownloadFile",
+                      "File",
+                      null,
+                      new { fileName = credit.SalaryCertFile })
         </div>
     }
 }

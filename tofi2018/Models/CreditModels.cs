@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using tofi2018.DAL;
 
 namespace tofi2018.Models
@@ -13,6 +17,10 @@ namespace tofi2018.Models
         public string LastName { get; set; }
 
         public string DocsFolder { get; set; }
+
+        public string PassportFile { get; set; }
+
+        public string SalaryCertFile { get; set; }
 
         public decimal AnnualRate { get; set; }
 
@@ -32,17 +40,56 @@ namespace tofi2018.Models
 
             this.DocsFolder = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
 
-            this.MonthlyPayment = (this.AnnualRate * 0.01m / 12.0m * this.Months + 1m) * this.Sum / (decimal)this.Months;
+            this.MonthlyPayment =
+                (this.AnnualRate * 0.01m / 12.0m * this.Months + 1m)
+                * this.Sum / (decimal)this.Months;
 
             this.AddToDb();
         }
 
         public void AddToDb()
         {
+            var root = HttpContext.Current.Server.MapPath(
+                WebConfigurationManager.AppSettings["CreditsRootDirectory"]);
+
+            // this.PassportFile = Directory.GetFiles(
+            //     Path.Combine(root, "passport")).First();
+
+            // this.SalaryCertFile = Directory.GetFiles(
+            //     Path.Combine(root, "salary_cert")).First();
+
             using (var db = new CreditContext())
             {
                 db.Credits.Add(this);
                 db.SaveChanges();
+            }
+        }
+    }
+
+    public class UsersCreditsModel
+    {
+        public Dictionary<string, List<Credit>> AllCredits { get; private set; }
+
+        public UsersCreditsModel()
+        {
+            this.AllCredits = new Dictionary<string, List<Credit>>();
+
+            using (var usersContext = new ApplicationDbContext())
+            using (var creditsContext = new CreditContext())
+            {
+                foreach (var u in usersContext.Users.Where(
+                    u => u.Roles.Any(
+                        r => r.RoleId == usersContext.Roles.Where(
+                            i => i.Name == "User").FirstOrDefault().Id)))
+                {
+                    AllCredits.Add(u.Email, new List<Credit>());
+
+                    foreach (var c in creditsContext.Credits.Where(
+                        c => c.UserName == u.Email))
+                    {
+                        AllCredits[u.Email].Add(c);
+                    }
+                }
             }
         }
     }
