@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -8,6 +7,13 @@ using tofi2018.DAL;
 
 namespace tofi2018.Models
 {
+    public enum Status
+    {
+        Pending,
+        Approved,
+        Rejected
+    }
+
     public class Credit
     {
         public string UserName { get; set; }
@@ -32,13 +38,15 @@ namespace tofi2018.Models
 
         public decimal MonthlyPayment { get; set; }
 
-        public bool IsApproved { get; set; }
+        public Status Status { get; set; }
 
         public void Calculate()
         {
             this.UserName = HttpContext.Current.User.Identity.Name;
 
             this.DocsFolder = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
+
+            this.Status = Status.Pending;
 
             this.MonthlyPayment =
                 (this.AnnualRate * 0.01m / 12.0m * this.Months + 1m)
