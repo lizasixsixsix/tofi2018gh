@@ -299,6 +299,8 @@
     <Content Include="Views\File\UploadDocs.cshtml" />
     <Content Include="Views\File\DocsUploaded.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Approve.cshtml" />
+    <Content Include="Views\Admin\Reject.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -60,12 +60,6 @@ namespace tofi2018.Models
             var root = HttpContext.Current.Server.MapPath(
                 WebConfigurationManager.AppSettings["CreditsRootDirectory"]);
 
-            // this.PassportFile = Directory.GetFiles(
-            //     Path.Combine(root, "passport")).First();
-
-            // this.SalaryCertFile = Directory.GetFiles(
-            //     Path.Combine(root, "salary_cert")).First();
-
             using (var db = new CreditContext())
             {
                 db.Credits.Add(this);

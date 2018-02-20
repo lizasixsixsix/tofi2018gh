@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using tofi2018.DAL;
 using tofi2018.Models;
 
 namespace tofi2018.Controllers
@@ -12,6 +14,36 @@ namespace tofi2018.Controllers
             var allCredits = new UsersCreditsModel();
 
             return View(allCredits);
+        }
+
+        public ActionResult Approve(int creditId)
+        {
+            using (var context = new CreditContext())
+            {
+                Credit credit = context.Credits.Where(
+                    c => c.CreditID == creditId).First();
+
+                credit.Status = Status.Approved;
+
+                context.SaveChanges();
+            }
+
+            return View();
+        }
+
+        public ActionResult Reject(int creditId)
+        {
+            using (var context = new CreditContext())
+            {
+                Credit credit = context.Credits.Where(
+                    c => c.CreditID == creditId).First();
+
+                credit.Status = Status.Rejected;
+
+                context.SaveChanges();
+            }
+
+            return View();
         }
     }
 }

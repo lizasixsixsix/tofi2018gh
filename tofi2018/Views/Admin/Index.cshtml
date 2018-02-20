@@ -1,4 +1,6 @@
-﻿@model tofi2018.Models.UsersCreditsModel
+﻿@using tofi2018.Models;
+
+@model tofi2018.Models.UsersCreditsModel
 
 @{
     ViewBag.Title = "Index";
@@ -8,38 +10,71 @@
 
 @foreach (var user in Model.AllCredits)
 {
+    <hr>
+
     <h3>@user.Key</h3>
 
     foreach (var credit in user.Value)
     {
-        <h3>Passport</h3>
+        <hr>
+
+        <h5>@credit.FirstName @credit.LastName</h5>
+
+        <div style="color: #0971ad">@String.Concat("$", credit.Sum) for @credit.Months months</div>
+
+        if (credit.Status == Status.Pending)
+        {
+            <div style="color: #0971ad; font-weight: bold">Pending for Approval</div>
+
+            @Html.ActionLink(
+                                     "Approve",
+                                     "Approve",
+                                     routeValues: new { creditId = credit.CreditID })
+
+            @:&nbsp;
+
+            @Html.ActionLink(
+                                     "Reject",
+                                     "Reject",
+                                     routeValues: new { creditId = credit.CreditID })
+        }
+        else if (credit.Status == Status.Approved)
+        {
+            <div style="color: #008f13; font-weight: bold">Approved</div>
+        }
+        else if (credit.Status == Status.Rejected)
+        {
+            <div style="color: #ff0000; font-weight: bold">Rejected</div>
+        }
+
+        <h5>Passport</h5>
 
         <div>
-            @credit.PassportFile
+            @Path.GetFileName(credit.PassportFile)
 
             &nbsp;
 
             @Html.ActionLink(
-                      "Download File",
-                      "DownloadFile",
-                      "File",
-                      routeValues: new { fileName = credit.PassportFile },
-                      htmlAttributes: null)
+                                     "Download",
+                                     "DownloadFile",
+                                     "File",
+                                     routeValues: new { fileName = credit.PassportFile },
+                                     htmlAttributes: null)
         </div>
 
-        <h3>Salary Certificate</h3>
+        <h5>Salary Certificate</h5>
 
         <div>
-            @credit.SalaryCertFile
+            @Path.GetFileName(credit.SalaryCertFile)
 
             &nbsp;
 
             @Html.ActionLink(
-                      "Download File",
-                      "DownloadFile",
-                      "File",
-                      routeValues: new { fileName = credit.SalaryCertFile },
-                      htmlAttributes: null)
+                                     "Download",
+                                     "DownloadFile",
+                                     "File",
+                                     routeValues: new { fileName = credit.SalaryCertFile },
+                                     htmlAttributes: null)
         </div>
     }
 }
