@@ -22,7 +22,9 @@
             @Html.ActionLink(
                       "Download File",
                       "DownloadFile",
-                      new { fileName = credit.PassportFile })
+                      "File",
+                      routeValues: new { fileName = credit.PassportFile },
+                      htmlAttributes: null)
         </div>
 
         <h3>Salary Certificate</h3>
@@ -36,8 +38,8 @@
                       "Download File",
                       "DownloadFile",
                       "File",
-                      null,
-                      new { fileName = credit.SalaryCertFile })
+                      routeValues: new { fileName = credit.SalaryCertFile },
+                      htmlAttributes: null)
         </div>
     }
 }
