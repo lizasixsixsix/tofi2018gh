@@ -30,7 +30,7 @@ namespace tofi2018.Models
 
         public decimal AnnualRate { get; set; }
 
-        public int CreditID { get; set; }
+        public int CreditId { get; set; }
 
         public decimal Sum { get; set; }
 
@@ -91,6 +91,25 @@ namespace tofi2018.Models
                     {
                         AllCredits[u.Email].Add(c);
                     }
+                }
+            }
+        }
+    }
+
+    public class MyCreditsModel
+    {
+        public List<Credit> MyCredits { get; private set; }
+
+        public MyCreditsModel(string userName)
+        {
+            this.MyCredits = new List<Credit>();
+
+            using (var creditsContext = new CreditContext())
+            {
+                foreach (var c in creditsContext.Credits.Where(
+                    c => c.UserName == userName))
+                {
+                    MyCredits.Add(c);
                 }
             }
         }

@@ -26,5 +26,13 @@ namespace tofi2018.Controllers
 
             return View(creditModel);
         }
+
+        public ActionResult AllMyCredits()
+        {
+            var allMyCredits = new MyCreditsModel(
+                System.Web.HttpContext.Current.User.Identity.Name);
+
+            return View(allMyCredits);
+        }
     }
 }

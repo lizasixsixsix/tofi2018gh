@@ -21,7 +21,7 @@ namespace tofi2018.Controllers
             using (var context = new CreditContext())
             {
                 Credit credit = context.Credits.Where(
-                    c => c.CreditID == creditId).First();
+                    c => c.CreditId == creditId).First();
 
                 credit.Status = Status.Approved;
 
@@ -36,7 +36,7 @@ namespace tofi2018.Controllers
             using (var context = new CreditContext())
             {
                 Credit credit = context.Credits.Where(
-                    c => c.CreditID == creditId).First();
+                    c => c.CreditId == creditId).First();
 
                 credit.Status = Status.Rejected;
 

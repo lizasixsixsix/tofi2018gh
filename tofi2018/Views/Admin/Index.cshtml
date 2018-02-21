@@ -18,25 +18,28 @@
     {
         <hr>
 
-        <h5>@credit.FirstName @credit.LastName</h5>
+        <h4>@credit.FirstName @credit.LastName</h4>
 
-        <div style="color: #0971ad">@String.Concat("$", credit.Sum) for @credit.Months months</div>
+        <div style="color: #0971ad">
+            @String.Concat("$", credit.Sum) for @credit.Months months:
+            monthly payment is @String.Concat("$", credit.MonthlyPayment).
+        </div>
 
         if (credit.Status == Status.Pending)
         {
             <div style="color: #0971ad; font-weight: bold">Pending for Approval</div>
 
             @Html.ActionLink(
-                                     "Approve",
-                                     "Approve",
-                                     routeValues: new { creditId = credit.CreditID })
+                      "Approve",
+                      "Approve",
+                      routeValues: new { creditId = credit.CreditId })
 
             @:&nbsp;
 
             @Html.ActionLink(
-                                     "Reject",
-                                     "Reject",
-                                     routeValues: new { creditId = credit.CreditID })
+                      "Reject",
+                      "Reject",
+                      routeValues: new { creditId = credit.CreditId })
         }
         else if (credit.Status == Status.Approved)
         {
@@ -47,34 +50,38 @@
             <div style="color: #ff0000; font-weight: bold">Rejected</div>
         }
 
-        <h5>Passport</h5>
-
         <div>
+            <span style="font-weight: bold">Passport</span>
+
+            &nbsp;
+
             @Path.GetFileName(credit.PassportFile)
 
             &nbsp;
 
             @Html.ActionLink(
-                                     "Download",
-                                     "DownloadFile",
-                                     "File",
-                                     routeValues: new { fileName = credit.PassportFile },
-                                     htmlAttributes: null)
+                      "Download",
+                      "DownloadFile",
+                      "File",
+                      routeValues: new { fileName = credit.PassportFile },
+                      htmlAttributes: null)
         </div>
 
-        <h5>Salary Certificate</h5>
-
         <div>
+            <span style="font-weight: bold">Salary Certificate</span>
+
+            &nbsp;
+
             @Path.GetFileName(credit.SalaryCertFile)
 
             &nbsp;
 
             @Html.ActionLink(
-                                     "Download",
-                                     "DownloadFile",
-                                     "File",
-                                     routeValues: new { fileName = credit.SalaryCertFile },
-                                     htmlAttributes: null)
+                      "Download",
+                      "DownloadFile",
+                      "File",
+                      routeValues: new { fileName = credit.SalaryCertFile },
+                      htmlAttributes: null)
         </div>
     }
 }

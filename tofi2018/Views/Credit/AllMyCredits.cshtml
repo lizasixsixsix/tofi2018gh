@@ -1,0 +1,34 @@
+﻿@using tofi2018.Models;
+
+@model tofi2018.Models.MyCreditsModel
+
+@{
+    ViewBag.Title = "AllMyCredits";
+}
+
+<h2>All My Credits</h2>
+
+@foreach (var credit in Model.MyCredits)
+{
+    <hr>
+
+    <h4>@credit.FirstName @credit.LastName</h4>
+
+    <div style="color: #0971ad">
+        @String.Concat("$", credit.Sum) for @credit.Months months:
+        monthly payment is @String.Concat("$", credit.MonthlyPayment).
+    </div>
+
+    if (credit.Status == Status.Pending)
+    {
+        <div style="color: #0971ad; font-weight: bold">Pending for Approval</div>
+    }
+    else if (credit.Status == Status.Approved)
+    {
+        <div style="color: #008f13; font-weight: bold">Approved</div>
+    }
+    else if (credit.Status == Status.Rejected)
+    {
+        <div style="color: #ff0000; font-weight: bold">Rejected</div>
+    }
+}

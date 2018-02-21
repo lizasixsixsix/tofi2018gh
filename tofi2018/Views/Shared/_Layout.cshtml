@@ -24,8 +24,17 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Calculate credit", "Index", "Credit")</li>
-                    <li>@Html.ActionLink("View all applications", "Index", "Admin")</li>
+
+                    @if (Roles.IsUserInRole(User.Identity.Name, "User"))
+                    {
+                        <li>@Html.ActionLink("Calculate credit", "Index", "Credit")</li>
+                        <li>@Html.ActionLink("My credits", "AllMyCredits", "Credit")</li>
+                    }
+
+                    @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                    {
+                        <li>@Html.ActionLink("View all applications", "Index", "Admin")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
